@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block profile %}
+<h3>Welcome {{ user.first_name }}</h3>
+{% endblock profile %}
+
+{% block groups_list %}
+{% for group in groups %}
+    <li>
+        {{ group.name }}
+        <ul>
+            {% for member in group.members %}
+            <li>
+                {{ member.name }}
+
+                {% for gift in member.list %}
+                    {{ gift }}
+                {% endfor %}
+            </li>
+            {% endfor %}
+
+        </ul>
+    </li>
+{% endfor %}
+{% endblock groups_list %}
+
+{% block gift_list %}
+<p>Cartera de piel</p>
+<p>Funda para celular</p>
+<p>Portaminas Zebra M-301</p>
+<p>Bocina bluetooth portátil</p>
+{% endblock gift_list %}
