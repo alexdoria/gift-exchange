@@ -12,7 +12,7 @@ def user_dashboard(request):
 
     for g in user_groups:
         members = User.objects.filter(groups=g)
-        git addgroup_item = {}
+        group_item = {}
         members_list = []
 
         for m in members:
