@@ -23,7 +23,7 @@ def user_dashboard(request):
             for gift in gifts_list:
                 owner_list.append(gift)
 
-            members_dict['name'] = m
+            members_dict['name'] = m.first_name
             members_dict['list'] = owner_list
             members_list.append(members_dict)
 

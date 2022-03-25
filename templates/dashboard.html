@@ -5,27 +5,31 @@
 
 {% block groups_list %}
 {% for group in groups %}
-    <li>
-        {{ group.name }}
-        <ul>
+    <div class="uk-card uk-card-default uk-margin">
+        <div class="uk-card-header">
+            <div class="uk-card-title">
+                {{ group.name }}
+            </div>
+        </div>
+        <div class="uk-card-body">
             {% for member in group.members %}
-            <li>
-                {{ member.name }}
-
+                <div><span uk-icon="user"></span> {{ member.name }}</div>
                 {% for gift in member.list %}
+                <div class="uk-padding-small">
+                    <span uk-icon="triangle-right"></span>
                     {{ gift }}
+                </div>
                 {% endfor %}
-            </li>
             {% endfor %}
+        </div>
 
-        </ul>
-    </li>
+    </div>
+
+
+
 {% endfor %}
 {% endblock groups_list %}
 
 {% block gift_list %}
-<p>Cartera de piel</p>
-<p>Funda para celular</p>
-<p>Portaminas Zebra M-301</p>
-<p>Bocina bluetooth portátil</p>
+
 {% endblock gift_list %}
