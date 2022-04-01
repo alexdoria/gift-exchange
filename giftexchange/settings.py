@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     #Project apps
     'gifts',
+    'fontawesomefree',
 ]
 
 MIDDLEWARE = [

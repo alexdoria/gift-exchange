@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block profile %}
+<h3>Welcome {{ user.first_name }}</h3>
+{% endblock profile %}
+
+{% block content %}
+{% for g in gifts %}
+    <div><i class="fa-solid fa-gift"></i> {{ g.shortname }}</div>
+    <div>{{ g.description }}</div>
+    <div>
+        {% for group in g.groups %}
+            <span class="uk-badge">{{ group }}</span>
+        {% endfor %}
+    </div>
+{% endfor %}
+{% endblock content %}

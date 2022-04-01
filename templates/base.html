@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <title>Gift XCH</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.11.1/dist/css/uikit.min.css" />
-    <link rel="stylesheet" href="../static/css/styles.css" />
+    {% load static %}
+    <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" type="text/css"/>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.11.1/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.11.1/dist/js/uikit-icons.min.js"></script>
 </head>
@@ -23,14 +25,11 @@
                 {% endblock profile %}
             </div>
             <div class="uk-width-1-1">
-                <h3>Groups</h3>
-                <ul>
-                    {% block groups_list %}
+                    {% block content %}
                     <p>Group1</p>
                     <p>Group2</p>
                     <p>Group3</p>
-                    {% endblock groups_list %}
-                </ul>
+                    {% endblock content %}
             </div>
         </main>
         <footer class="uk-margin-top">

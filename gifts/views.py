@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from gifts.models import Gift
 
 
@@ -37,3 +37,36 @@ def user_dashboard(request):
                       'groups': groups,
                   }
                   )
+
+
+def my_gifts(request):
+    """List, create and edit gifts"""
+    user = User.objects.get(username='amanda')
+    gift_query = Gift.objects.filter(user=user)
+    gifts_lists = []
+
+    for present in gift_query:
+        gift_dict = {}
+        this_gift_groups_list = []
+        
+        gift_dict['shortname'] = present.short_name
+        gift_dict['description'] = present.description
+
+        this_gift_groups = Group.objects.filter(gift__id=present.id)
+        # print(this_gift_groups)
+        for group in this_gift_groups:
+            this_gift_groups_list.append(group)
+
+        gift_dict['groups'] = this_gift_groups_list
+        gifts_lists.append(gift_dict)
+
+    print(gifts_lists)
+    # print(gifts_lists)
+
+    return render(request, 'gifts.html',
+                  {
+                      'user': user,
+                      'gifts': gifts_lists,
+                  }
+                  )
+        

@@ -3,7 +3,7 @@
 <h3>Welcome {{ user.first_name }}</h3>
 {% endblock profile %}
 
-{% block groups_list %}
+{% block content %}
 {% for group in groups %}
     <div class="uk-card uk-card-default uk-margin">
         <div class="uk-card-header">
@@ -13,9 +13,9 @@
         </div>
         <div class="uk-card-body">
             {% for member in group.members %}
-                <div><span uk-icon="user"></span> {{ member.name }}</div>
+                <div><span uk-icon="user"></span> <strong>{{ member.name }}</strong></div>
                 {% for gift in member.list %}
-                <div class="uk-padding-small">
+                <div class="uk-margin-small">
                     <span uk-icon="triangle-right"></span>
                     {{ gift }}
                 </div>
@@ -28,8 +28,4 @@
 
 
 {% endfor %}
-{% endblock groups_list %}
-
-{% block gift_list %}
-
-{% endblock gift_list %}
+{% endblock content %}
