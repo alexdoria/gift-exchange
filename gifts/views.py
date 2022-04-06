@@ -1,13 +1,34 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
 from gifts.models import Gift
 
 
 # Create your views here.
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user:
+            login(request, user)
+            return redirect('dashboard')
+        else:
+            return render(request, 'login.html', {'error': 'Check username or password'})
+    
+    return render(request, 'login.html')
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
+@login_required(login_url='login')
 def user_dashboard(request):
     """Lists groups and gifts for the logged-in user"""
-    user = User.objects.get(username='amanda')
-    user_groups = user.groups.all()
+    user = request.user.username
+    user_groups = request.user.groups.all()
     groups = []
 
     for g in user_groups:
@@ -39,10 +60,10 @@ def user_dashboard(request):
                   )
 
 
-def my_gifts(request):
+@login_required(login_url='login')
+def gifts_view(request):
     """List, create and edit gifts"""
-    user = User.objects.get(username='amanda')
-    gift_query = Gift.objects.filter(user=user)
+    gift_query = Gift.objects.filter(user=request.user)
     gifts_lists = []
 
     for present in gift_query:
@@ -60,12 +81,8 @@ def my_gifts(request):
         gift_dict['groups'] = this_gift_groups_list
         gifts_lists.append(gift_dict)
 
-    print(gifts_lists)
-    # print(gifts_lists)
-
     return render(request, 'gifts.html',
                   {
-                      'user': user,
                       'gifts': gifts_lists,
                   }
                   )

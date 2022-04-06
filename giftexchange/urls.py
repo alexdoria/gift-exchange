@@ -22,5 +22,7 @@ from gifts import views as gifts_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('dashboard/', gifts_views.user_dashboard, name='dashboard'),
-    path('my-gifts/', gifts_views.my_gifts, name='my-gifts')
+    path('gifts/', gifts_views.gifts_view, name='gifts'),
+    path('login/', gifts_views.login_view, name='login'),
+    path('logout/', gifts_views.logout_view, name='logout')
 ]

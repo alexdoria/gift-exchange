@@ -4,9 +4,13 @@
     </div>
     <div class="uk-navbar-right">
         <ul class="uk-navbar-nav uk-margin-right">
-            <li class="uk-margin-right">Gifts</li>
-            <li class="uk-margin-right">Groups</li>
-            <li class="uk-margin-right">Login/out</li>
+            <li class="uk-margin-right"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+            <li class="uk-margin-right"><a href="{% url 'gifts' %}">Gifts</a></li>
+            {% if request.user.is_authenticated %}
+            <li class="uk-margin-right"><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+            <li class="uk-margin-right"><a href="{% url 'login' %}">Login</a></li>
+            {% endif %}
         </ul>
     </div>
 </nav>
