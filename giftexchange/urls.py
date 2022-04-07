@@ -18,11 +18,12 @@ from django.urls import path
 
 # app views
 from gifts import views as gifts_views
+from members import views as members_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('dashboard/', gifts_views.user_dashboard, name='dashboard'),
+    path('dashboard/', members_views.user_dashboard, name='dashboard'),
     path('gifts/', gifts_views.gifts_view, name='gifts'),
-    path('login/', gifts_views.login_view, name='login'),
-    path('logout/', gifts_views.logout_view, name='logout')
+    path('login/', members_views.login_view, name='login'),
+    path('logout/', members_views.logout_view, name='logout')
 ]

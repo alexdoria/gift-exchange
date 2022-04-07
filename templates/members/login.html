@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block profile %}
+{% endblock profile %}
+
+{% block content %}
+<form action="{% url 'login' %}" method="post" class="uk-width-1-3 uk-align-center">
+    {% csrf_token %}
+    {% if error %}
+        <span class="uk-label uk-label-warning uk-margin">{{ error }}</span>
+    {% endif %}
+    <input type="text" name="username" placeholder="username" class="uk-input uk-form-large uk-form-width-large uk-margin">
+    <input type="password" name="password" placeholder="password" class="uk-input uk-form-large uk-form-width-large uk-margin">
+    <button class="uk-button uk-button-default" type="submit">Log in</button>
+</form>
+{% endblock content %}
