@@ -11,4 +11,4 @@ class Gift(models.Model):
     link = models.URLField(blank=True)
 
     def __str__(self):
-        return f'{self.short_name} by {self.user.username}'
+        return f'{self.short_name}'
