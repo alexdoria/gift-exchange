@@ -9,6 +9,12 @@ from gifts.models import Gift
 @login_required(login_url='login')
 def gifts_view(request):
     """List, create and edit gifts"""
+    if request.method == 'POST':
+        short_name = request.POST['short_name']
+        description = request.POST['description']
+        url = request.POST['url']
+        Gift.objects.create(user=request.user, short_name=short_name, description=description, link=url)
+
     gift_query = Gift.objects.filter(user=request.user)
     gifts_lists = []
 
@@ -27,9 +33,5 @@ def gifts_view(request):
         gift_dict['groups'] = this_gift_groups_list
         gifts_lists.append(gift_dict)
 
-    return render(request, 'gifts.html',
-                  {
-                      'gifts': gifts_lists,
-                  }
-                  )
+    return render(request, 'gifts.html', {'gifts': gifts_lists})
         

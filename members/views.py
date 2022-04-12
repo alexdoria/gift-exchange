@@ -35,7 +35,7 @@ def user_dashboard(request):
         group_to_add = Group.objects.get(name=group_name)
         request.user.groups.add(group_to_add)
 
-    user = request.user.username
+    # user = request.user.username
     user_groups = request.user.groups.all()
     groups = []
 
@@ -62,7 +62,6 @@ def user_dashboard(request):
 
     return render(request, 'members/dashboard.html',
                   {
-                      'user': user,
                       'groups': groups,
                   }
                   )

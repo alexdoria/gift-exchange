@@ -7,6 +7,17 @@
 
 {% load static %}
 {% block content %}
+    <button type="button" class="uk-button uk-button-primary uk-margin" uk-toggle="target: #new-gift-modal">ADD A NEW GIFT</button>
+    <div id="new-gift-modal" class="uk-container uk-width-1-2" uk-modal>
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <form action="{% url 'gifts' %}" method="post">
+            {% csrf_token %}
+            <input type="text" class="uk-input uk-margin" name="short_name" placeholder="New gift name">
+            <input type="text" class="uk-input uk-margin" name="description" placeholder="Describe your gift, does it have any special characteristic?">
+            <input type="url" class="uk-input uk-margin" name="url" placeholder="Paste a link to get your gift">
+            <button type="submit" class="uk-button uk-button-primary">ADD</button>
+        </form>
+    </div>
     <div class="uk-child-width-1-3 uk-grid-match" uk-grid>
         {% for g in gifts %}
         <div>
