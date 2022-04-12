@@ -28,6 +28,13 @@ def logout_view(request):
 @login_required(login_url='login')
 def user_dashboard(request):
     """Lists groups and gifts for the logged-in user"""
+
+    if request.method == 'POST':
+        group_name = request.POST['group_name']
+        x = Group.objects.create(name=group_name)
+        group_to_add = Group.objects.get(name=group_name)
+        request.user.groups.add(group_to_add)
+
     user = request.user.username
     user_groups = request.user.groups.all()
     groups = []
@@ -59,3 +66,11 @@ def user_dashboard(request):
                       'groups': groups,
                   }
                   )
+
+
+@login_required(login_url='login')
+def new_group(request):
+    """
+    This view lets the user create a new group, add members to the group (send invitations)
+    and accept invitations.
+    """
