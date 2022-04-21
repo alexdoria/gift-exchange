@@ -25,5 +25,9 @@ urlpatterns = [
     path('dashboard/', members_views.user_dashboard, name='dashboard'),
     path('gifts/', gifts_views.gifts_view, name='gifts'),
     path('login/', members_views.login_view, name='login'),
-    path('logout/', members_views.logout_view, name='logout')
+    path('logout/', members_views.logout_view, name='logout'),
+    path('signup/', members_views.signup_view, name='signup'),
+    path('delete_group/', members_views.delete_group, name='delete_group'),
+    path('delete_gift/', gifts_views.delete_gift, name='delete_gift'),
+    path('set_gift_groups/', gifts_views.set_gift_groups, name='set_gift_groups'),
 ]

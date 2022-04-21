@@ -5,7 +5,7 @@ from django.contrib.auth.models import User, Group
 # Create your models here.
 class Gift(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    group = models.ManyToManyField(Group)
+    groups = models.ManyToManyField(Group)
     short_name = models.CharField(max_length=20)
     description = models.CharField(max_length=150)
     link = models.URLField(blank=True)
