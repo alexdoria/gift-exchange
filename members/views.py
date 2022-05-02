@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
 from gifts.models import Gift
+from .models import Member
 
 
 # Create your views here.
@@ -73,10 +74,13 @@ def signup_view(request):
         email = request.POST['email']
         password = request.POST['password']
 
-        create_user = User.objects.create(username=username, email=email, password=password)
-        if create_user:
+        create_user = User.objects.create_user(username=username, email=email, password=password)
+        if create_user is not None:
             print("User " + username + " created")
-            return redirect('login')
+            user = authenticate(request, username=username, password=password)
+            login(request, user)
+            Member.objects.create(user=request.user)
+            return redirect('dashboard')
 
     return render(request, 'members/signup.html')
 

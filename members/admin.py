@@ -4,5 +4,5 @@ from .models import Member
 
 @admin.register(Member)
 class MemberAdmin(admin.ModelAdmin):
-    list_display = ('username', 'clubs')
-    list_display_links = ('username',)
+    list_display = ('user',)
+    list_display_links = ('user',)
