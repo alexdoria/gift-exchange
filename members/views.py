@@ -38,8 +38,7 @@ def user_dashboard(request):
     if request.method == 'POST':
         club_name = request.POST['club_name']
         x = Club.objects.create(name=club_name, club_admin=member)
-        club_to_add = Club.objects.get(name=club_name, club_admin=member)
-        member.clubs.add(club_to_add)
+        member.clubs.add(x)
 
     user_clubs = member.clubs.all()
     clubs = []

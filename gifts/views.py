@@ -17,7 +17,6 @@ def gifts_view(request):
         url = request.POST['url']
         Gift.objects.create(user=member, short_name=short_name, description=description, link=url)
 
-
     gift_query = Gift.objects.filter(user=member)
     gifts_lists = []
 
@@ -65,6 +64,6 @@ def set_gift_groups(request):
         this_gift = Gift.objects.get(id=gift_id)
 
         for g in groups_id_list:
-            this_gift.groups.add(g)
+            this_gift.clubs.add(g)
 
     return redirect('gifts')
