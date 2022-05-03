@@ -1,11 +1,12 @@
 from django.db import models
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
+from members.models import Club, Member
 
 
 # Create your models here.
 class Gift(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    groups = models.ManyToManyField(Group)
+    user = models.ForeignKey(Member, on_delete=models.CASCADE)
+    clubs = models.ManyToManyField(Club)
     short_name = models.CharField(max_length=20)
     description = models.CharField(max_length=150)
     link = models.URLField(blank=True)

@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
 from gifts.models import Gift
-from .models import Member
+from .models import Member, Club
 
 
 # Create your views here.
@@ -31,40 +31,42 @@ def logout_view(request):
 
 @login_required(login_url='login')
 def user_dashboard(request):
-    """Lists groups and gifts for the logged-in user"""
+    """Lists clubs and gifts for the logged-in user"""
+
+    member = Member.objects.get(user=request.user)
 
     if request.method == 'POST':
-        group_name = request.POST['group_name']
-        x = Group.objects.create(name=group_name)
-        group_to_add = Group.objects.get(name=group_name)
-        request.user.groups.add(group_to_add)
+        club_name = request.POST['club_name']
+        x = Club.objects.create(name=club_name, club_admin=member)
+        club_to_add = Club.objects.get(name=club_name, club_admin=member)
+        member.clubs.add(club_to_add)
 
-    user_groups = request.user.groups.all()
-    groups = []
+    user_clubs = member.clubs.all()
+    clubs = []
 
-    for g in user_groups:
-        members = User.objects.filter(groups=g)
-        group_item = {}
+    for g in user_clubs:
+        members = Member.objects.filter(clubs=g)
+        club_item = {}
         members_list = []
 
         for m in members:
             members_dict = {}
             owner_list = []
 
-            gifts_list = Gift.objects.filter(user=m, groups=g)
+            gifts_list = Gift.objects.filter(user=m, clubs=g)
             for gift in gifts_list:
                 owner_list.append(gift)
 
-            members_dict['name'] = m.username
+            members_dict['name'] = m.user.username
             members_dict['list'] = owner_list
             members_list.append(members_dict)
 
-        group_item['name'] = g.name
-        group_item['id'] = g.id
-        group_item['members'] = members_list
-        groups.append(group_item)
+        club_item['name'] = g.name
+        club_item['id'] = g.id
+        club_item['members'] = members_list
+        clubs.append(club_item)
 
-    return render(request, 'members/dashboard.html', {'groups': groups})
+    return render(request, 'members/dashboard.html', {'clubs': clubs})
 
 
 def signup_view(request):
@@ -86,10 +88,10 @@ def signup_view(request):
 
 
 @login_required(login_url='login')
-def delete_group(request):
+def delete_club(request):
     if request.method == 'POST':
         g_id = request.POST['object_id']
-        obj = Group.objects.get(id=g_id)
+        obj = Club.objects.get(id=g_id)
         obj.delete()
 
     return redirect('dashboard')
