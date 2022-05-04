@@ -59,11 +59,10 @@ def delete_gift(request):
 def set_gift_groups(request):
     if request.method == 'POST':
         gift_id = request.POST['gift_id']
-        groups_id_list = request.POST.getlist('user_groups_list')
-        print(groups_id_list)
+        clubs_id_list = request.POST.getlist('user_clubs_list')
         this_gift = Gift.objects.get(id=gift_id)
 
-        for g in groups_id_list:
+        for g in clubs_id_list:
             this_gift.clubs.add(g)
 
     return redirect('gifts')
