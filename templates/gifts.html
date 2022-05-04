@@ -36,11 +36,10 @@
                 {% endfor %}
                 <form action="{% url 'set_gift_groups' %}" method="post">
                     {% csrf_token %}
-                    <input type="text" value="{{ g.id }}" name="gift_id">
                     <div class="uk-margin uk-grid-small uk-child-width-auto" uk-grid>
                         {% for group in user_groups %}
                         <label>
-                            <input type="checkbox" value="{{ group.id }}" class="uk-checkbox" name="user_groups_list">
+                            <input type="checkbox" value="{{ group.id }}" class="uk-checkbox" name="user_clubs_list">
                             {{ group.name }} #{{ group.id }}
                         </label>
                         {% endfor %}

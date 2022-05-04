@@ -27,7 +27,7 @@ urlpatterns = [
     path('login/', members_views.login_view, name='login'),
     path('logout/', members_views.logout_view, name='logout'),
     path('signup/', members_views.signup_view, name='signup'),
-    path('delete_group/', members_views.delete_group, name='delete_group'),
+    path('delete_club/', members_views.delete_club, name='delete_club'),
     path('delete_gift/', gifts_views.delete_gift, name='delete_gift'),
     path('set_gift_groups/', gifts_views.set_gift_groups, name='set_gift_groups'),
 ]
