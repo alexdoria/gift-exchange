@@ -29,5 +29,5 @@ urlpatterns = [
     path('signup/', members_views.signup_view, name='signup'),
     path('delete_club/', members_views.delete_club, name='delete_club'),
     path('delete_gift/', gifts_views.delete_gift, name='delete_gift'),
-    path('set_gift_groups/', gifts_views.set_gift_groups, name='set_gift_groups'),
+    path('set_gift_clubs/', gifts_views.set_gift_clubs, name='set_gift_clubs'),
 ]

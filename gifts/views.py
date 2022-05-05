@@ -22,26 +22,26 @@ def gifts_view(request):
 
     for present in gift_query:
         gift_dict = {}
-        this_gift_groups_list = []
+        this_gift_clubs_list = []
 
         gift_dict['id'] = present.id
         gift_dict['shortname'] = present.short_name
         gift_dict['description'] = present.description
 
-        this_gift_groups = Club.objects.filter(gift__id=present.id)
-        # print(this_gift_groups)
-        for group in this_gift_groups:
-            this_gift_groups_list.append(group)
+        this_gift_clubs = Club.objects.filter(gift__id=present.id)
+        # print(this_gift_clubs)
+        for club in this_gift_clubs:
+            this_gift_clubs_list.append(club)
 
-        gift_dict['groups'] = this_gift_groups_list
+        gift_dict['clubs'] = this_gift_clubs_list
         gifts_lists.append(gift_dict)
 
-    user_groups = Club.objects.filter(member=member)
+    user_clubs = Club.objects.filter(member=member)
 
     return render(request, 'gifts.html',
                   {
                       'gifts': gifts_lists,
-                      'user_groups': user_groups,
+                      'user_clubs': user_clubs,
                   })
 
 
@@ -56,7 +56,7 @@ def delete_gift(request):
 
 
 @login_required(login_url='login')
-def set_gift_groups(request):
+def set_gift_clubs(request):
     if request.method == 'POST':
         gift_id = request.POST['gift_id']
         clubs_id_list = request.POST.getlist('user_clubs_list')

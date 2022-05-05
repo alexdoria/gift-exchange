@@ -10,11 +10,8 @@ from .models import Member, Club
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
-        print(username)
         password = request.POST['password']
-        print(password)
         user = authenticate(request, username=username, password=password)
-        print(user)
         if user is not None:
             login(request, user)
             return redirect('dashboard')

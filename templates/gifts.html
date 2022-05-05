@@ -31,16 +31,17 @@
             <div class="uk-card-body">
                 <h3 class="uk-card-title"><i class="fa-solid fa-gift"></i> {{ g.shortname }}</h3>
                 <p>{{ g.description }}</p>
-                {% for group in g.groups %}
-                <span class="uk-badge">{{ group }}</span>
+                {% for club in g.clubs %}
+                <span class="uk-badge">{{ club }}</span>
                 {% endfor %}
-                <form action="{% url 'set_gift_groups' %}" method="post">
+                <form action="{% url 'set_gift_clubs' %}" method="post">
                     {% csrf_token %}
                     <div class="uk-margin uk-grid-small uk-child-width-auto" uk-grid>
-                        {% for group in user_groups %}
+                        <input type="text" name="gift_id" value="{{ g.id }}" hidden>
+                        {% for club in user_clubs %}
                         <label>
-                            <input type="checkbox" value="{{ group.id }}" class="uk-checkbox" name="user_clubs_list">
-                            {{ group.name }} #{{ group.id }}
+                            <input type="checkbox" value="{{ club.id }}" class="uk-checkbox" name="user_clubs_list">
+                            {{ club.name }} #{{ club.id }}
                         </label>
                         {% endfor %}
                     </div>
