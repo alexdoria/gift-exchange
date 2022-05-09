@@ -4,8 +4,13 @@
     </div>
     <div class="uk-navbar-right">
         <ul class="uk-navbar-nav uk-margin-right">
+            {% if request.user.is_authenticated %}
+            <li class="uk-margin-right"><a href="#">
+                <button class="uk-button uk-button-danger">Invitations</button>
+            </a></li>
             <li class="uk-margin-right"><a href="{% url 'dashboard' %}">Dashboard</a></li>
             <li class="uk-margin-right"><a href="{% url 'gifts' %}">Gifts</a></li>
+            {% endif %}
             {% if request.user.is_authenticated %}
             <li class="uk-margin-right"><a href="{% url 'logout' %}">Logout</a></li>
             {% else %}

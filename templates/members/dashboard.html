@@ -1,6 +1,18 @@
 {% extends 'base.html' %}
 {% block profile %}
 <h3>Welcome {{ request.user.username }}</h3>
+<div id="invitations">
+    {% for club in clubs_to_join %}
+    <form action="{% url 'accept_invitation' %}" method="post">
+        {% csrf_token %}
+        {{ club.name }}
+        <input type="text" value=" {{ club.id }}" name="accepted_club" hidden>
+        <button class="uk-button uk-button-default" type="submit">
+            <i class="fa-solid fa-circle-check"></i>
+        </button>
+    </form>
+    {% endfor %}
+</div>
 {% endblock profile %}
 
 {% block content %}
@@ -8,10 +20,10 @@
     <form action="{% url 'dashboard' %}" method="post">
         {% csrf_token %}
         <input
-            type="text"
-            class="uk-input uk-form-width-large uk-margin"
-            name="club_name"
-            placeholder="Enter a name for your new group"
+                type="text"
+                class="uk-input uk-form-width-large uk-margin"
+                name="club_name"
+                placeholder="Enter a name for your new group"
         >
         <button class="uk-button uk-button-primary uk-margin" type="submit">
             Create group
@@ -19,34 +31,52 @@
     </form>
 </div>
 <div class="uk-child-width-1-3 uk-grid-match" uk-grid>
-{% for club in clubs %}
+    {% for club in clubs %}
     <div>
         <div class="uk-card uk-card-default">
             <div class="uk-card-header">
                 <div class="uk-card-title">
                     <i class="fa-solid fa-people-group"></i> {{ club.name }}
                 </div>
+                <!-- DELETE GROUP FORM IN A BUTTON -->
                 <form action="{% url 'delete_club' %}" method="post">
                     {% csrf_token %}
                     <input type="text" value="{{ club.id }}" name="object_id" hidden>
                     <button type="submit" class="uk-button uk-button-default uk-button-small">
-                        DELETE
+                        <i class="fa-solid fa-trash-can"></i>
                     </button>
                 </form>
+                <!-- INVITE MEMBERS BUTTON -->
+                <button type="button" class="uk-button uk-button-default uk-button-small uk-margin"
+                    uk-toggle="target: #add-members-modal">
+                    <i class="fa-solid fa-user-plus"></i>
+                </button>
+                <!-- INVITE MEMBERS FORM IN A MODAL -->
+                <div id="add-members-modal" class="uk-container uk-width-1-2" uk-modal>
+                    <button class="uk-modal-close-default" type="button" uk-close></button>
+                    <form action="{% url 'invite_members' %}" method="post">
+                        {% csrf_token %}
+                        <input type="email" class="uk-input uk-margin" name="invite_email" placeholder="Enter e-mail">
+                        <input type="email" class="uk-input uk-margin" name="invite_email" placeholder="Enter e-mail">
+                        <input type="email" class="uk-input uk-margin" name="invite_email" placeholder="Enter e-mail">
+                        <input type="text" value="{{ club.id }}" name="object_id" hidden>
+                        <button type="submit" class="uk-button uk-button-primary">INVITE</button>
+                    </form>
+                </div>
             </div>
             <div class="uk-card-body">
                 {% for member in club.members %}
-                    <div><i class="fa-regular fa-user"></i> <strong>{{ member.name }}</strong></div>
-                    {% for gift in member.list %}
-                    <div class="uk-margin-small uk-margin-left">
-                        <i class="fa-solid fa-gift"></i>
-                        {{ gift }}
-                    </div>
-                    {% endfor %}
+                <div><i class="fa-regular fa-user"></i> <strong>{{ member.name }}</strong></div>
+                {% for gift in member.list %}
+                <div class="uk-margin-small uk-margin-left">
+                    <i class="fa-solid fa-gift"></i>
+                    {{ gift }}
+                </div>
+                {% endfor %}
                 {% endfor %}
             </div>
         </div>
     </div>
-{% endfor %}
+    {% endfor %}
 </div>
 {% endblock content %}

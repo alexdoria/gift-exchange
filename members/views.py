@@ -62,7 +62,15 @@ def user_dashboard(request):
         club_item['members'] = members_list
         clubs.append(club_item)
 
-    return render(request, 'members/dashboard.html', {'clubs': clubs})
+    clubs_to_join = member.invited_to.all()
+    print(clubs_to_join)
+
+    return render(request, 'members/dashboard.html',
+                  {
+                      'clubs': clubs,
+                      'clubs_to_join': clubs_to_join,
+                  }
+                  )
 
 
 def signup_view(request):
@@ -89,5 +97,32 @@ def delete_club(request):
         g_id = request.POST['object_id']
         obj = Club.objects.get(id=g_id)
         obj.delete()
+
+    return redirect('dashboard')
+
+
+@login_required(login_url='login')
+def invite_members(request):
+    if request.method == 'POST':
+        g_id = request.POST['object_id']
+        club = Club.objects.get(id=g_id)
+        invited_members_emails = request.POST.getlist('invite_email')
+
+        for email in invited_members_emails:
+            member = Member.objects.get(user__email=email)
+            member.invited_to.add(club)
+
+    return redirect('dashboard')
+
+
+@login_required(login_url='login')
+def accept_invitation(request):
+    if request.method == 'POST':
+        accepted_club_id = request.POST['accepted_club']
+        accepted_club = Club.objects.get(id=accepted_club_id)
+        print(accepted_club)
+        member = Member.objects.get(user=request.user)
+        member.clubs.add(accepted_club)
+        member.invited_to.remove(accepted_club)
 
     return redirect('dashboard')

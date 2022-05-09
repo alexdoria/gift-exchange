@@ -30,4 +30,6 @@ urlpatterns = [
     path('delete_club/', members_views.delete_club, name='delete_club'),
     path('delete_gift/', gifts_views.delete_gift, name='delete_gift'),
     path('set_gift_clubs/', gifts_views.set_gift_clubs, name='set_gift_clubs'),
+    path('invite_members/', members_views.invite_members, name='invite_members'),
+    path('accept_invitation/', members_views.accept_invitation, name='accept_invitation'),
 ]

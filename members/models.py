@@ -15,6 +15,7 @@ class Member(models.Model):
     """Extends the default Django's User model"""
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     clubs = models.ManyToManyField(Club)
+    invited_to = models.ManyToManyField(Club, related_name="invitations")
 
     def __str__(self):
         return '{}'.format(self.user.username)
