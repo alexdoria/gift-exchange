@@ -37,6 +37,7 @@
             <div class="uk-card-header">
                 <div class="uk-card-title">
                     <i class="fa-solid fa-people-group"></i> {{ club.name }}
+                    by {{ club.admin }}
                 </div>
                 <!-- DELETE GROUP FORM IN A BUTTON -->
                 <form action="{% url 'delete_club' %}" method="post">
@@ -47,10 +48,12 @@
                     </button>
                 </form>
                 <!-- INVITE MEMBERS BUTTON -->
-                <button type="button" class="uk-button uk-button-default uk-button-small uk-margin"
-                    uk-toggle="target: #add-members-modal">
-                    <i class="fa-solid fa-user-plus"></i>
-                </button>
+                {% if request.user == club.admin %}
+                    <button type="button" class="uk-button uk-button-default uk-button-small uk-margin"
+                            uk-toggle="target: #add-members-modal">
+                        <i class="fa-solid fa-user-plus"></i>
+                    </button>
+                {% endif %}
                 <!-- INVITE MEMBERS FORM IN A MODAL -->
                 <div id="add-members-modal" class="uk-container uk-width-1-2" uk-modal>
                     <button class="uk-modal-close-default" type="button" uk-close></button>

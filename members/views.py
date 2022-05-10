@@ -60,10 +60,10 @@ def user_dashboard(request):
         club_item['name'] = g.name
         club_item['id'] = g.id
         club_item['members'] = members_list
+        club_item['admin'] = g.club_admin.user
         clubs.append(club_item)
 
     clubs_to_join = member.invited_to.all()
-    print(clubs_to_join)
 
     return render(request, 'members/dashboard.html',
                   {

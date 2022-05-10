@@ -8,7 +8,7 @@ class Club(models.Model):
     club_admin = models.ForeignKey('Member', on_delete=models.DO_NOTHING)
 
     def __str__(self):
-        return '{}'.format(self.name)
+        return f"{self.name} created by {self.club_admin}"
 
 
 class Member(models.Model):
