@@ -11,13 +11,13 @@
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.11.1/dist/js/uikit-icons.min.js"></script>
 </head>
 <body>
+    <header>
+        <!--Navigation bar from templates/nav.html-->
+        {% include 'nav.html' %}
+    </header>
     <div class="uk-container-small uk-margin-auto uk-padding-small" id="wrapper" uk-height-viewport>
-        <header>
-            <!--Navigation bar from nav.html-->
-            {% include 'nav.html' %}
-        </header>
-        <main class="uk-margin" uk-grid>
-            <div class="uk-width-1-1" uk-grid>
+        <main class="uk-margin">
+            <div class="uk-width-1-1">
                 {% block profile %}
                 <div class="uk-width-1-3">username</div>
                 <div class="uk-width-1-3"># groups</div>
@@ -33,7 +33,7 @@
             </div>
         </main>
         <footer class="uk-margin-top">
-            Bottom of the page
+            <hr>
         </footer>
     </div>
 </body>

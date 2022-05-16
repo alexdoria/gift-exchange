@@ -3,8 +3,8 @@
 {% endblock profile %}
 
 {% block content %}
-<div uk-grid>
-    <div class="uk-align-center">
+<div class="uk-align-center">
+    <div>
         <h3 class="uk-text-center">Log in</h3>
         <form action="{% url 'login' %}" method="post">
             {% csrf_token %}

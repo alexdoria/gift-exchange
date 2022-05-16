@@ -109,8 +109,11 @@ def invite_members(request):
         invited_members_emails = request.POST.getlist('invite_email')
 
         for email in invited_members_emails:
-            member = Member.objects.get(user__email=email)
-            member.invited_to.add(club)
+            if not email:
+                pass
+            else:
+                member = Member.objects.get(user__email=email)
+                member.invited_to.add(club)
 
     return redirect('dashboard')
 
@@ -126,3 +129,8 @@ def accept_invitation(request):
         member.invited_to.remove(accepted_club)
 
     return redirect('dashboard')
+
+@login_required(login_url='login')
+def sort_exchange(request):
+    if request.method == 'POST':
+        pass
