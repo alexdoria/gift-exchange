@@ -18,4 +18,4 @@ class Member(models.Model):
     invited_to = models.ManyToManyField(Club, related_name="invitations")
 
     def __str__(self):
-        return '{}'.format(self.user.username)
+        return f"{self.user.username}"

@@ -130,6 +130,7 @@ def accept_invitation(request):
 
     return redirect('dashboard')
 
+
 @login_required(login_url='login')
 def sort_exchange(request):
     if request.method == 'POST':
