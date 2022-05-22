@@ -21,22 +21,22 @@
 
 {% block content %}
 
-    <form action="{% url 'dashboard' %}" method="post" class="uk-grid-small" uk-grid>
-        {% csrf_token %}
-        <div class="uk-width-2-3@s">
-            <input
+<form action="{% url 'dashboard' %}" method="post" class="uk-grid-small" uk-grid>
+    {% csrf_token %}
+    <div class="uk-width-2-3@s">
+        <input
                 type="text"
                 class="uk-input"
                 name="club_name"
                 placeholder="Enter new group name"
-            >
-        </div>
-        <div class="uk-width-1-3@s">
-            <button class="uk-button uk-button-primary uk-width-1-1s" type="submit">
-                Create group
-            </button>
-        </div>
-    </form>
+        >
+    </div>
+    <div class="uk-width-1-3@s">
+        <button class="uk-button uk-button-primary uk-width-1-1s" type="submit">
+            Create group
+        </button>
+    </div>
+</form>
 
 <div class="uk-grid-match uk-grid-small" uk-grid>
     {% for club in clubs %}
@@ -46,11 +46,17 @@
                 <div class="uk-card-title">
                     <i class="fa-solid fa-people-group"></i> {{ club.name|title }}
                 </div>
-
             </div>
             <div class="uk-card-body">
                 {% for member in club.members %}
-                <div><i class="fa-regular fa-user"></i> <strong>{{ member.name|title }}</strong></div>
+                <div>
+                    <i class="fa-regular fa-user"></i>
+                    <strong>
+                        {{ member.name|title }} gives to
+                        {% load c_filters %}
+                        {{ club.matches|get_value:member.name }}
+                    </strong>
+                </div>
                 {% for gift in member.list %}
                 <div class="uk-margin-small uk-margin-left">
                     <i class="fa-solid fa-gift"></i>
@@ -76,32 +82,22 @@
                     <!-- INVITE MEMBERS BUTTON -->
                     {% if request.user == club.admin %}
 
-                    <button type="button" class="uk-button uk-button-primary uk-button-small"
-                            uk-toggle="target: #add-members-modal">
-                        <i class="fa-solid fa-user-plus"></i>
-                    </button>
+                    <form action="{% url 'invite_members' %}" method="get">
+
+                        <input type="text" value="{{ club.id }}" name="club" hidden>
+                        <button type="submit" class="uk-button uk-button-primary uk-button-small">
+                            <i class="fa-solid fa-user-plus"></i>
+                        </button>
+                    </form>
 
                     <!-- SORT SECRET FRIENDS -->
-                    <button type="button" class="uk-button uk-button-primary uk-button-small">
-                        <i class="fa-solid fa-arrows-spin"></i>
-                    </button>
-
+                    <form action="{% url 'sort_exchange' %}" method="get">
+                        <input type="text" value="{{ club.id }}" name="club" hidden>
+                        <button type="submit" class="uk-button uk-button-primary uk-button-small">
+                            <i class="fa-solid fa-arrows-spin"></i>
+                        </button>
+                    </form>
                     {% endif %}
-                    <!-- INVITE MEMBERS FORM IN A MODAL -->
-                    <div id="add-members-modal" class="uk-container uk-width-1-2@s" uk-modal>
-                        <button class="uk-modal-close-default" type="button" uk-close></button>
-                        <form action="{% url 'invite_members' %}" method="post">
-                            {% csrf_token %}
-                            <input type="email" class="uk-input uk-margin" name="invite_email"
-                                   placeholder="Enter e-mail">
-                            <input type="email" class="uk-input uk-margin" name="invite_email"
-                                   placeholder="Enter e-mail">
-                            <input type="email" class="uk-input uk-margin" name="invite_email"
-                                   placeholder="Enter e-mail">
-                            <input type="text" value="{{ club.id }}" name="object_id" hidden>
-                            <button type="submit" class="uk-button uk-button-primary">INVITE</button>
-                        </form>
-                    </div>
                 </div>
             </div>
         </div>

@@ -38,6 +38,13 @@ def gifts_view(request):
 
     user_clubs = Club.objects.filter(member=member)
 
+    for club in user_clubs:
+        aqua = member.user.username
+        volta = club.match
+
+        #print(f"{club.name}: {volta}")
+        print(club.match[aqua])
+
     return render(request, 'gifts.html',
                   {
                       'gifts': gifts_lists,

@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from gifts.models import Gift
 from .models import Member, Club
+import random
 
 
 # Create your views here.
@@ -38,6 +39,7 @@ def user_dashboard(request):
         member.clubs.add(x)
 
     user_clubs = member.clubs.all()
+
     clubs = []
 
     for g in user_clubs:
@@ -61,6 +63,7 @@ def user_dashboard(request):
         club_item['id'] = g.id
         club_item['members'] = members_list
         club_item['admin'] = g.club_admin.user
+        club_item['matches'] = g.match
         clubs.append(club_item)
 
     clubs_to_join = member.invited_to.all()
@@ -103,6 +106,11 @@ def delete_club(request):
 
 @login_required(login_url='login')
 def invite_members(request):
+    if request.method == 'GET':
+        club = request.GET['club']
+
+        return render(request, 'members/invite-members.html', {'club': club})
+
     if request.method == 'POST':
         g_id = request.POST['object_id']
         club = Club.objects.get(id=g_id)
@@ -115,7 +123,7 @@ def invite_members(request):
                 member = Member.objects.get(user__email=email)
                 member.invited_to.add(club)
 
-    return redirect('dashboard')
+        return redirect('dashboard')
 
 
 @login_required(login_url='login')
@@ -133,5 +141,38 @@ def accept_invitation(request):
 
 @login_required(login_url='login')
 def sort_exchange(request):
+    if request.method == 'GET':
+        club = request.GET['club']
+
+        return render(request, 'members/sort-exchange.html', {'club': club})
+
     if request.method == 'POST':
-        pass
+        club_id = request.POST['object_id']
+        club = Club.objects.get(id=club_id)
+        members = club.member_set.all()
+
+        members_ids = []
+
+        for member in members:
+            members_ids.append(member.pk)
+
+        random.shuffle(members_ids)
+        match = {}
+
+        for i in range(len(members_ids)):
+            from_member = Member.objects.get(id=members_ids[i])
+            if members_ids[i] == members_ids[-1]:
+                to_member = Member.objects.get(id=members_ids[0])
+
+            else:
+                i += 1
+                to_member = Member.objects.get(id=members_ids[i])
+
+            match[from_member.user.username] = to_member.user.username
+
+        club.match = match
+        club.save()
+        print(club.match)
+
+    return redirect('dashboard')
+

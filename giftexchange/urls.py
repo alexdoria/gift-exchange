@@ -32,4 +32,5 @@ urlpatterns = [
     path('set_gift_clubs/', gifts_views.set_gift_clubs, name='set_gift_clubs'),
     path('invite_members/', members_views.invite_members, name='invite_members'),
     path('accept_invitation/', members_views.accept_invitation, name='accept_invitation'),
+    path('sort_exchange/', members_views.sort_exchange, name='sort_exchange'),
 ]

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block profile %}
+<h3 class="welcome-user uk-heading-bullet">{{ request.user.username|title }}</h3>
+<p class="uk-text-muted">
+    You are about to sort the gift matches for {{ club.name|title }}, please confirm:
+</p>
+{% endblock profile %}
+
+{% block content %}
+<form action="{% url 'sort_exchange' %}" method="post">
+    {% csrf_token %}
+    <input type="text" value="{{ club }}" name="object_id" hidden>
+    <button type="submit" class="uk-button uk-button-primary">YES, SORT OUT FRIEND MATCHES
+    </button>
+</form>
+{% endblock content %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block profile %}
+<h3 class="welcome-user uk-heading-bullet">{{ request.user.username|title }}</h3>
+<p class="uk-text-muted">
+    You can invite your friend to join the group {{ club.name|title }} by entering their emails.
+</p>
+{% endblock profile %}
+
+{% block content %}
+<form action="{% url 'invite_members' %}" method="post">
+    {% csrf_token %}
+    <input type="email" class="uk-input uk-margin" name="invite_email"
+           placeholder="Enter e-mail">
+    <input type="email" class="uk-input uk-margin" name="invite_email"
+           placeholder="Enter e-mail">
+    <input type="email" class="uk-input uk-margin" name="invite_email"
+           placeholder="Enter e-mail">
+    <input type="text" value="{{ club }}" name="object_id" hidden>
+    <button type="submit" class="uk-button uk-button-primary">
+        SEND INVITATIONS
+    </button>
+</form>
+{% endblock content %}
