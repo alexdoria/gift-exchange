@@ -1,16 +1,16 @@
-#Gift XCH
-##Gift exchange web app built with python/django (3.6/3.2). For the UI it uses [UIkit](https://getuikit.com/)
+# Gift XCH
+## Gift exchange web app built with python/django (3.6/3.2). For the UI it uses [UIkit](https://getuikit.com/)
 
 This is a web app to arrange a gift exchange between a group of friends. A mobile-first approach is intended.
 
-###The user can:
+### The user can:
 - Create an account with her/his email.
 - Create a group.
 - Create gifts.
 - Assign gifts to selected groups.
 - Sort out the members of each group to set gift matches.
 
-###Next features:
+### Next features:
 - Invite friends via email. Invitations can be sent by now but the invited user will only see them if logged in. No email is sent.
 - Upload custom gift picture. Replace current mockup.
 - Show gift url and shorten it.
