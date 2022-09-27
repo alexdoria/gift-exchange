@@ -1,0 +1,35 @@
+{% load static %}
+<nav class="uk-navbar-container" uk-navbar uk-sticky>
+    <div class="uk-navbar-left">
+        <a href="#" class="uk-navbar-item uk-logo">
+            <img src="{% static 'img/giftxch_logo_wire.png' %}" width="20%" height="20%" alt="Gift XCH Logo">
+        </a>
+    </div>
+    <div class="uk-navbar-right">
+        <ul class="uk-navbar-nav uk-margin-right">
+            {% if request.user.is_authenticated %}
+            <li class="uk-margin-right">
+                <a href="{% url 'dashboard' %}">
+                    <i class="fa-solid fa-users-rectangle fa-xl"></i>
+                </a>
+            </li>
+            <li class="uk-margin-right">
+                <a href="{% url 'gifts' %}">
+                    <i class="fa-solid fa-gifts fa-xl"></i>
+                </a>
+            </li>
+            <li class="uk-margin-right">
+                <a href="{% url 'logout' %}">
+                    <i class="fa-solid fa-arrow-right-from-bracket fa-xl"></i>
+                </a>
+            </li>
+            {% else %}
+            <li class="uk-margin-right">
+                <a href="{% url 'login' %}">
+                    <i class="fa-solid fa-arrow-right-to-bracket fa-xl"></i>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

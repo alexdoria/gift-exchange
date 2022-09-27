@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block profile %}
+<div>
+    <h3 class="welcome-user uk-heading-bullet">{{ request.user.username|title }}'s Gifts</h3>
+    <p class="uk-text-muted">Add and edit your gifts list, assign them to the group/s you want.</p>
+</div>
+{% endblock profile %}
+
+{% load static %}
+{% block content %}
+<button type="button" class="uk-button uk-button-primary uk-width-1-1 uk-margin" uk-toggle="target: #new-gift-modal">
+    ADD A NEW GIFT
+</button>
+<div id="new-gift-modal" class="uk-container uk-width-1-1 uk-width-1-2@m" uk-modal>
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+    <form action="{% url 'gifts' %}" method="post">
+        {% csrf_token %}
+        <input type="text" class="uk-input uk-margin" name="short_name" placeholder="New gift name">
+        <input type="text" class="uk-input uk-margin" name="description"
+               placeholder="Describe your gift, does it have any special characteristic?">
+        <input type="url" class="uk-input uk-margin" name="url" placeholder="Paste a link to get your gift">
+        <button type="submit" class="uk-button uk-button-primary">ADD</button>
+    </form>
+</div>
+<div class="uk-child-width-1-3@s uk-grid-match" uk-grid>
+    {% for g in gifts %}
+    <div>
+        <div class="uk-card uk-card-default">
+            <div class="uk-card-media-top">
+                <img src="{% static 'img/landscape_mockup.png' %}">
+            </div>
+            <div class="uk-card-body">
+                <h3 class="uk-card-title"><i class="fa-solid fa-gift"></i> {{ g.shortname }}</h3>
+                <p>{{ g.description }}</p>
+                {% for club in g.clubs %}
+                <span class="uk-badge uk-text-small">{{ club }}</span>
+                {% endfor %}
+                <form action="{% url 'set_gift_clubs' %}" method="post">
+                    {% csrf_token %}
+                    <div class="uk-margin uk-grid-small uk-child-width-auto" uk-grid>
+                        <input type="text" name="gift_id" value="{{ g.id }}" hidden>
+                        {% for club in user_clubs %}
+                        <label>
+                            <input type="checkbox" value="{{ club.id }}" class="uk-checkbox" name="user_clubs_list">
+                            {{ club.name }}
+                        </label>
+                        {% endfor %}
+                    </div>
+                    <button type="submit" class="uk-button uk-button-default uk-button-small">SET GROUPS</button>
+                </form>
+                <form action="{% url 'delete_gift' %}" method="post" class="uk-margin-small">
+                    {% csrf_token %}
+                    <input type="text" value="{{ g.id }}" name="object_id" hidden>
+                    <button type="submit" class="uk-button uk-button-default uk-button-small">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}

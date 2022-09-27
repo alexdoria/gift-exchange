@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block profile %}
+<h3 class="welcome-user uk-heading-bullet">Hello {{ request.user.username|title }}</h3>
+<p class="uk-text-muted">Create your groups and send or accept invitations from others.</p>
+<div id="invitations">
+    {% for club in clubs_to_join %}
+    <div class="uk-margin">
+        <h4>You have invitations, click on <i class="fa-solid fa-circle-check"></i> to accept</h4>
+        <form action="{% url 'accept_invitation' %}" method="post">
+            {% csrf_token %}
+            {{ club.name }}
+            <input type="text" value=" {{ club.id }}" name="accepted_club" hidden>
+            <button class="" type="submit">
+                <i class="fa-solid fa-circle-check"></i>
+            </button>
+        </form>
+    </div>
+    {% endfor %}
+</div>
+{% endblock profile %}
+
+{% block content %}
+
+<form action="{% url 'dashboard' %}" method="post" class="uk-grid-small" uk-grid>
+    {% csrf_token %}
+    <div class="uk-width-2-3@s">
+        <input
+                type="text"
+                class="uk-input"
+                name="club_name"
+                placeholder="Enter new group name"
+        >
+    </div>
+    <div class="uk-width-1-3@s">
+        <button class="uk-button uk-button-primary uk-width-1-1s" type="submit">
+            Create group
+        </button>
+    </div>
+</form>
+
+<div class="uk-grid-match uk-grid-small" uk-grid>
+    {% for club in clubs %}
+    <div class="uk-width-1-2@s">
+        <div class="uk-card uk-card-default">
+            <div class="uk-card-header">
+                <div class="uk-card-title">
+                    <i class="fa-solid fa-people-group"></i> {{ club.name|title }}
+                </div>
+            </div>
+            <div class="uk-card-body">
+                {% for member in club.members %}
+                <div>
+                    <i class="fa-regular fa-user"></i>
+                    <strong>
+                        {{ member.name|title }} gives to
+                        {% load c_filters %}
+                        {{ club.matches|get_value:member.name }}
+                    </strong>
+                </div>
+                {% for gift in member.list %}
+                <div class="uk-margin-small uk-margin-left">
+                    <i class="fa-solid fa-gift"></i>
+                    {{ gift }}
+                </div>
+                {% endfor %}
+                {% endfor %}
+            </div>
+            <div class="uk-card-footer uk-padding-remove">
+                <div class="uk-grid-small" uk-grid>
+                    <!-- DELETE GROUP FORM IN A BUTTON -->
+
+                    <div>
+                        <form action="{% url 'delete_club' %}" method="post">
+                            {% csrf_token %}
+                            <input type="text" value="{{ club.id }}" name="object_id" hidden>
+                            <button type="submit" class="uk-button uk-button-danger uk-button-small">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- INVITE MEMBERS BUTTON -->
+                    {% if request.user == club.admin %}
+
+                    <form action="{% url 'invite_members' %}" method="get">
+
+                        <input type="text" value="{{ club.id }}" name="club" hidden>
+                        <button type="submit" class="uk-button uk-button-primary uk-button-small">
+                            <i class="fa-solid fa-user-plus"></i>
+                        </button>
+                    </form>
+
+                    <!-- SORT SECRET FRIENDS -->
+                    <form action="{% url 'sort_exchange' %}" method="get">
+                        <input type="text" value="{{ club.id }}" name="club" hidden>
+                        <button type="submit" class="uk-button uk-button-primary uk-button-small">
+                            <i class="fa-solid fa-arrows-spin"></i>
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}
