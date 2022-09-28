@@ -43,7 +43,7 @@ def gifts_view(request):
         volta = club.match
 
         #print(f"{club.name}: {volta}")
-        print(club.match[aqua])
+        #print(club.match[aqua])
 
     return render(request, 'gifts.html',
                   {
