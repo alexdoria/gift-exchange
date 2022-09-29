@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
 from gifts.models import Gift
 from .models import Member, Club
 import random
@@ -122,6 +123,14 @@ def invite_members(request):
             else:
                 member = Member.objects.get(user__email=email)
                 member.invited_to.add(club)
+
+        send_mail(
+            request.user + ' wants you to join ' + club + ' group', # Subject
+            'Hello, you have been invited to a gift exchange with your friends', # Mail body
+            'gxch.mailer@digitalnoreste.com', # Sender
+            invited_members_emails, # Recipients
+            fail_silently = False, #Show the error when it occurs
+            )
 
         return redirect('dashboard')
 
