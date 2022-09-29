@@ -125,7 +125,7 @@ def invite_members(request):
                 member.invited_to.add(club)
 
         send_mail(
-            request.user + ' wants you to join ' + club + ' group', # Subject
+            request.user.username + ' wants you to join ' + club + ' group', # Subject
             'Hello, you have been invited to a gift exchange with your friends', # Mail body
             'gxch.mailer@digitalnoreste.com', # Sender
             invited_members_emails, # Recipients
