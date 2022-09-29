@@ -146,5 +146,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Email settings
 EMAIL_HOST = 'smtp.zoho.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'gxch.mailer@digitalnoreste.com'
-EMAIL_HOST_PASSWORD = 'zg9CCBXGePJ8nJ7~'
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
