@@ -125,11 +125,13 @@ def invite_members(request):
                 member.invited_to.add(club)
 
         send_mail(
-            request.user.username + ' wants you to join ' + club.name + ' group', # Subject
+            'GXCH invitation',
+            #request.user.username + ' wants you to join ' + club.name + ' group', # Subject
             'Hello, you have been invited to a gift exchange with your friends', # Mail body
             'gxch.mailer@digitalnoreste.com', # Sender
-            invited_members_emails, # Recipients
-            fail_silently = False, #Show the error when it occurs
+            # invited_members_emails, # Recipients
+            ['sr.alexdoria@gmail.com'],
+            fail_silently = False #Show the error when it occurs
             )
 
         return redirect('dashboard')
