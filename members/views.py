@@ -116,6 +116,7 @@ def invite_members(request):
         g_id = request.POST['object_id']
         club = Club.objects.get(id=g_id)
         invited_members_emails = request.POST.getlist('invite_email')
+        print(invited_members_emails)
 
         for email in invited_members_emails:
             if not email:
@@ -125,12 +126,11 @@ def invite_members(request):
                 member.invited_to.add(club)
 
         send_mail(
-            'GXCH invitation',
-            #request.user.username + ' wants you to join ' + club.name + ' group', # Subject
+            request.user.username + ' wants you to join ' + club.name + ' group', # Subject
             'Hello, you have been invited to a gift exchange with your friends', # Mail body
             'gxch.mailer@digitalnoreste.com', # Sender
-            # invited_members_emails, # Recipients
-            ['sr.alexdoria@gmail.com'],
+            invited_members_emails, # Recipients
+            # ['sr.alexdoria@gmail.com'],
             fail_silently = False #Show the error when it occurs
             )
 
