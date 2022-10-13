@@ -116,11 +116,11 @@ def invite_members(request):
         g_id = request.POST['object_id']
         club = Club.objects.get(id=g_id)
         invited_members_emails = request.POST.getlist('invite_email')
-        print(invited_members_emails)
+        
 
         for email in invited_members_emails:
-            if Member.objects.get(user__email=email):
-                member = Member.objects.get(user__email=email)
+            member = Member.objects.filter(user__email=email)
+            if member:
                 member.invited_to.add(club)
             else:
                 pass
