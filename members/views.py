@@ -122,6 +122,8 @@ def invite_members(request):
             if Member.objects.get(user__email=email):
                 member = Member.objects.get(user__email=email)
                 member.invited_to.add(club)
+            else:
+                pass
 
         send_mail(
             request.user.username + ' wants you to join ' + club.name + ' group', # Subject
