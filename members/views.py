@@ -119,9 +119,7 @@ def invite_members(request):
         print(invited_members_emails)
 
         for email in invited_members_emails:
-            if not email:
-                pass
-            else:
+            if Member.objects.get(user__email=email):
                 member = Member.objects.get(user__email=email)
                 member.invited_to.add(club)
 
@@ -183,6 +181,5 @@ def sort_exchange(request):
 
         club.match = match
         club.save()
-        print(club.match)
 
     return redirect('dashboard')
