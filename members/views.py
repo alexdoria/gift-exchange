@@ -127,7 +127,7 @@ def invite_members(request):
 
         send_mail(
             request.user.username + ' wants you to join ' + club.name + ' group', # Subject
-            'Hello, you have been invited to a gift exchange with your friends.\nPlease follow the following link and register with the same email address where you were invited: ', # Mail body
+            'Hello, you have been invited to a gift exchange with your friends.\nPlease follow the following link and register with the same email address where you were invited: https://whale-app-zof6x.ondigitalocean.app/signup/', # Mail body
             'gxch.mailer@digitalnoreste.com', # Sender
             invited_members_emails, # Recipients
             # ['sr.alexdoria@gmail.com'],
