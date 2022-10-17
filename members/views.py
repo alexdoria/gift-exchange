@@ -119,9 +119,11 @@ def invite_members(request):
         
 
         for email in invited_members_emails:
-            member = Member.objects.filter(user__email=email)
-            if member:
-                member.invited_to.add(club)
+            registered_member = Member.objects.filter(user__email=email)
+            print(registered_member)
+            if registered_member.exists():
+                get_member=Member.objects.get(user__email=email)
+                get_member.invited_to.add(club)
             else:
                 pass
 
