@@ -106,11 +106,11 @@ def delete_club(request):
 
 
 @login_required(login_url='login')
-def invite_members(request):
+def invite_members(request, mail_address):
     if request.method == 'GET':
         club = request.GET['club']
 
-        return render(request, 'members/invite-members.html', {'club': club})
+        return render(request, 'members/invite-members.html', {'club': club, 'mail_address': mail_address})
 
     if request.method == 'POST':
         g_id = request.POST['object_id']
@@ -122,17 +122,16 @@ def invite_members(request):
             if registered_member.exists():
                 get_member=Member.objects.get(user__email=email)
                 get_member.invited_to.add(club)
-            else:
-                pass
 
-        send_mail(
-            request.user.username + ' wants you to join ' + club.name + ' group', # Subject
-            'Hello, you have been invited to a gift exchange with your friends.\nPlease follow the following link and register with the same email address where you were invited: https://whale-app-zof6x.ondigitalocean.app/signup/', # Mail body
-            'gxch.mailer@digitalnoreste.com', # Sender
-            invited_members_emails, # Recipients
-            # ['sr.alexdoria@gmail.com'],
-            fail_silently = False #Show the error when it occurs
-            )
+            send_mail(
+                request.user.username + ' wants you to join ' + club.name + ' group', # Subject
+                '''Hello, you have been invited to a gift exchange with your friends.\n
+                Please follow the following link and register with the same email address where you were invited:\n\n
+                https://whale-app-zof6x.ondigitalocean.app/signup/''' + email, # Mail body
+                'gxch.mailer@digitalnoreste.com', # Sender
+                email, # Recipients
+                fail_silently = False #Show the error when it occurs
+                )
 
         return redirect('dashboard')
 

@@ -11,7 +11,11 @@
             {% if user_create_error %}
             <span class="uk-label uk-margin">{{ user_create_error }}</span>
             {% endif %}
+            {% if mail_address %}
+            <input class="uk-input uk-margin" name="username" placeholder="{{ mail_address }}" type="text">
+            {% else %}
             <input class="uk-input uk-margin" name="username" placeholder="Username" type="text">
+            {% endif %}
             <input class="uk-input uk-margin" name="email" placeholder="Email" type="email">
             <input class="uk-input uk-margin" name="password" placeholder="Create a password" type="password">
             <button class="uk-button uk-button-primary uk-align-center" type="submit">Create account</button>
