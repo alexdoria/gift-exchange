@@ -91,8 +91,8 @@ def signup_view(request):
             login(request, user)
             Member.objects.create(user=request.user)
             return redirect('dashboard')
-
-    return render(request, 'members/signup.html')
+    
+    return render(request, 'members/signup.html', {'myheaders': request.headers})
 
 
 @login_required(login_url='login')
@@ -117,10 +117,8 @@ def invite_members(request):
         club = Club.objects.get(id=g_id)
         invited_members_emails = request.POST.getlist('invite_email')
         
-
         for email in invited_members_emails:
             registered_member = Member.objects.filter(user__email=email)
-            print(registered_member)
             if registered_member.exists():
                 get_member=Member.objects.get(user__email=email)
                 get_member.invited_to.add(club)
@@ -129,7 +127,7 @@ def invite_members(request):
 
         send_mail(
             request.user.username + ' wants you to join ' + club.name + ' group', # Subject
-            'Hello, you have been invited to a gift exchange with your friends', # Mail body
+            'Hello, you have been invited to a gift exchange with your friends.\nPlease follow the following link and register with the same email address where you were invited: ', # Mail body
             'gxch.mailer@digitalnoreste.com', # Sender
             invited_members_emails, # Recipients
             # ['sr.alexdoria@gmail.com'],
