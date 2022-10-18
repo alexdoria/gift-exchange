@@ -106,7 +106,7 @@ def delete_club(request):
 
 
 @login_required(login_url='login')
-def invite_members(request, mail_address):
+def invite_members(request, mail_address="Your email here"):
     if request.method == 'GET':
         club = request.GET['club']
 
