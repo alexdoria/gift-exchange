@@ -122,6 +122,8 @@ def invite_members(request, mail_address="Your email here"):
             if registered_member.exists():
                 get_member=Member.objects.get(user__email=email)
                 get_member.invited_to.add(club)
+            
+            email_as_list = [email]
 
             send_mail(
                 request.user.username + ' wants you to join ' + club.name + ' group', # Subject
@@ -129,7 +131,7 @@ def invite_members(request, mail_address="Your email here"):
                 Please follow the following link and register with the same email address where you were invited:\n\n
                 https://whale-app-zof6x.ondigitalocean.app/signup/''' + email, # Mail body
                 'gxch.mailer@digitalnoreste.com', # Sender
-                list(email), # Recipients
+                email_as_list, # Recipients
                 fail_silently = False #Show the error when it occurs
                 )
 
