@@ -12,8 +12,8 @@
             <span class="uk-label uk-margin">{{ user_create_error }}</span>
             {% endif %}
             <input class="uk-input uk-margin" name="username" placeholder="Username" type="text">
-            {% if mail_address %}
-            <input class="uk-input uk-margin" name="email" placeholder="{{ mail_address }}" type="email">
+            {% if email_from_new_user_inbox %}
+            <input class="uk-input uk-margin" name="email" placeholder="{{ email_from_new_user_inbox }}" type="email">
             {% else %}
             <input class="uk-input uk-margin" name="email" placeholder="Email" type="email">
             {% endif %}
