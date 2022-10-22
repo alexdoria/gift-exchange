@@ -6,7 +6,7 @@
 <div uk-grid>
     <div class="uk-align-center">
         <h3>Signup</h3>
-        <form action="{% url 'signup' mail_address %}" method="post">
+        <form action="{% url 'signup' %}" method="post">
             {% csrf_token %}
             {% if user_create_error %}
             <span class="uk-label uk-margin">{{ user_create_error }}</span>
