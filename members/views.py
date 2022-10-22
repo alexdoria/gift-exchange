@@ -77,7 +77,7 @@ def user_dashboard(request):
                   )
 
 
-def signup_view(request):
+def signup_view(request, mail_address="My email account"):
     """ New users signup """
     if request.method == 'POST':
         username = request.POST['username']
@@ -92,7 +92,7 @@ def signup_view(request):
             Member.objects.create(user=request.user)
             return redirect('dashboard')
     
-    return render(request, 'members/signup.html', {'myheaders': request.headers})
+    return render(request, 'members/signup.html', {'email_from_new_user_inbox': mail_address})
 
 
 @login_required(login_url='login')
@@ -106,11 +106,11 @@ def delete_club(request):
 
 
 @login_required(login_url='login')
-def invite_members(request, mail_address="Your email here"):
+def invite_members(request):
     if request.method == 'GET':
         club = request.GET['club']
 
-        return render(request, 'members/invite-members.html', {'club': club, 'mail_address': mail_address})
+        return render(request, 'members/invite-members.html', {'club': club})
 
     if request.method == 'POST':
         g_id = request.POST['object_id']
