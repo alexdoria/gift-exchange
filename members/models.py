@@ -9,7 +9,7 @@ def match_default():
 # Create your models here.
 class Club(models.Model):
     name = models.CharField(max_length=50, unique=False)
-    club_admin = models.ForeignKey('Member', on_delete=models.DO_NOTHING)
+    club_admin = models.ForeignKey('Member', on_delete=models.SET_NULL)
 
     match = models.JSONField(blank=True, default=match_default)
 
