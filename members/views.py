@@ -88,8 +88,8 @@ def signup_view(request, mail_address="My email account"):
         if create_user is not None:
             user = authenticate(request, username=username, password=password)
             login(request, user)
-            Invitation.objects.get(invited_email=email)
-            Member.objects.create(user=request.user)
+            my_invitations = Invitation.objects.get(invited_email=email)
+            Member.objects.create(user=request.user, invited_to=my_invitations.invited_club)
             return redirect('dashboard')
         
     
