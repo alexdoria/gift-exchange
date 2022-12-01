@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block profile %}
 <h3 class="welcome-user uk-heading-bullet">Hello {{ request.user.username|title }}</h3>
+<h5>{{ request.user.username }}</h5>
 <p class="uk-text-muted">Create your groups and send or accept invitations from others.</p>
 <div id="invitations">
     {% for club in clubs_to_join %}
