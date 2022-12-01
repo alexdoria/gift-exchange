@@ -4,12 +4,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from gifts.models import Gift
-from .models import Member, Club
+from .models import Member, Club, Invitation
 import random
 
 
 # Create your views here.
-def login_view(request):
+def login_view(request, my_user_name="Username from inbox not passed"):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -20,7 +20,7 @@ def login_view(request):
         else:
             return render(request, 'members/login.html', {'login_error': 'Check username or password'})
 
-    return render(request, 'members/login.html')
+    return render(request, 'members/login.html', {'username_from_user_inbox': my_user_name})
 
 
 def logout_view(request):
@@ -86,11 +86,12 @@ def signup_view(request, mail_address="My email account"):
 
         create_user = User.objects.create_user(username=username, email=email, password=password)
         if create_user is not None:
-            print("User " + username + " created")
             user = authenticate(request, username=username, password=password)
             login(request, user)
+            Invitation.objects.get(invited_email=email)
             Member.objects.create(user=request.user)
             return redirect('dashboard')
+        
     
     return render(request, 'members/signup.html', {'email_from_new_user_inbox': mail_address})
 
@@ -117,11 +118,24 @@ def invite_members(request):
         club = Club.objects.get(id=g_id)
         invited_members_emails = request.POST.getlist('invite_email')
         
+        email_as_list = [email]
         for email in invited_members_emails:
             registered_member = Member.objects.filter(user__email=email)
             if registered_member.exists():
                 get_member=Member.objects.get(user__email=email)
                 get_member.invited_to.add(club)
+
+                send_mail(
+                    request.user.username + ' wants you to join ' + club.name + ' group', # Subject
+                    '''Hello, you have been invited to a gift exchange with your friends.\n
+                    Please log into your account to accept this invitation:\n
+                    https://whale-app-zof6x.ondigitalocean.app/login/''' + registered_member.user.username, # Mail body
+                    'gxch.mailer@digitalnoreste.com', # Sender
+                    email_as_list, # Recipients
+                    fail_silently = False #Show the error when it occurs
+                )
+            else:
+                Invitation.objects.create(invited_email=email, invited_club=club)
             
             email_as_list = [email]
 
