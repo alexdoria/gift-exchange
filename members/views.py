@@ -118,9 +118,9 @@ def invite_members(request):
         club = Club.objects.get(id=g_id)
         invited_members_emails = request.POST.getlist('invite_email')
         
-        email_as_list = [email]
         for email in invited_members_emails:
             registered_member = Member.objects.filter(user__email=email)
+            email_as_list = [email]
             if registered_member.exists():
                 get_member=Member.objects.get(user__email=email)
                 get_member.invited_to.add(club)
@@ -137,17 +137,15 @@ def invite_members(request):
             else:
                 Invitation.objects.create(invited_email=email, invited_club=club)
             
-            email_as_list = [email]
-
-            send_mail(
-                request.user.username + ' wants you to join ' + club.name + ' group', # Subject
-                '''Hello, you have been invited to a gift exchange with your friends.\n
-                Please follow the following link and register with the same email address where you were invited:\n\n
-                https://whale-app-zof6x.ondigitalocean.app/signup/''' + email, # Mail body
-                'gxch.mailer@digitalnoreste.com', # Sender
-                email_as_list, # Recipients
-                fail_silently = False #Show the error when it occurs
-                )
+                send_mail(
+                    request.user.username + ' wants you to join ' + club.name + ' group', # Subject
+                    '''Hello, you have been invited to a gift exchange with your friends.\n
+                    Please follow the following link and register with the same email address where you were invited:\n\n
+                    https://whale-app-zof6x.ondigitalocean.app/signup/''' + email, # Mail body
+                    'gxch.mailer@digitalnoreste.com', # Sender
+                    email_as_list, # Recipients
+                    fail_silently = False #Show the error when it occurs
+                    )
 
         return redirect('dashboard')
 
