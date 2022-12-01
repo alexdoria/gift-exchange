@@ -20,7 +20,7 @@ class Invitation(models.Model):
     invited_email = models.EmailField(max_length=50)
     invited_club = models.ForeignKey('Club', null=True, on_delete=models.CASCADE)
 
-    def __str__(self) -> str:
+    def __str__(self):
         return f"{self.invited_email}"
 
 
