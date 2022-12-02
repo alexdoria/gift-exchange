@@ -129,7 +129,7 @@ def invite_members(request):
                     request.user.username + ' wants you to join ' + club.name + ' group', # Subject
                     '''Hello, you have been invited to a gift exchange with your friends.\n
                     Please log into your account to accept this invitation:\n
-                    https://whale-app-zof6x.ondigitalocean.app/login/''' + registered_member.user.username, # Mail body
+                    https://whale-app-zof6x.ondigitalocean.app/login/''' + get_member.user.username, # Mail body
                     'gxch.mailer@digitalnoreste.com', # Sender
                     email_as_list, # Recipients
                     fail_silently = False #Show the error when it occurs
