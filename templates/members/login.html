@@ -11,7 +11,7 @@
             {% if login_error %}
             <span class="uk-label uk-margin">{{ login_error }}</span>
             {% endif %}
-            <input class="uk-input uk-margin" name="username" placeholder="username_from_user_inbox" type="text">
+            <input class="uk-input uk-margin" name="username" placeholder="{{ username_from_user_inbox }}" type="text">
             <input class="uk-input uk-margin" name="password" placeholder="Password" type="password">
             <button class="uk-button uk-button-primary uk-align-center" type="submit">Log in</button>
         </form>
