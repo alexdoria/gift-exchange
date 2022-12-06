@@ -27,6 +27,7 @@ class Invitation(models.Model):
 class Member(models.Model):
     """Extends the default Django's User model"""
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    email = models.EmailField(unique=True)
     clubs = models.ManyToManyField(Club)
     invited_to = models.ManyToManyField(Club, related_name="invitations")
 
